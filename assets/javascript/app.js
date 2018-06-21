@@ -51,10 +51,9 @@ $(document).ready(function () {
     url: queryURL,
     method: "GET"
   }).then(function (response) {
-    // console.log(queryURL);
-    // console.log(response);
+    console.log(queryURL);
+    console.log(response);
     console.log(btnChoice);
-
     
     for (let j = 0; j < (response.data).length; j++) {
       $('#animal-images').append(`    
@@ -65,25 +64,8 @@ $(document).ready(function () {
             <p class="card-text">Rating: ${response.data[j].rating}</p>
             <p class="card-text">Score: ${response.data[j]._score}</p>
           </div>
-        </div>`
-    );
+        </div>`);
     };
-
   });
-
- 
-
   });
-
-
-
-
-
-
-
-
-
-
-
-
 });
