@@ -32,6 +32,8 @@ $(document).ready(function () {
   let topics = ['cats', 'dogs', 'birds', 'elephant', 'seal', 'fish', 'lion', 'bison', 'deer', 'tiger'];
   
   //For loop to add buttons to the page using the values from topics array
+  
+  function createAnimalBtns() {
   for (let i = 0; i < topics.length; i++) {
     let animalBtn = $('<button>');
     animalBtn.addClass('btn btn-success m-2 animal-button');
@@ -39,7 +41,17 @@ $(document).ready(function () {
     animalBtn.attr('type', 'button');
     animalBtn.text(topics[i]);
     $('#animal-buttons').append(animalBtn);
-  }
+  }}
+
+  createAnimalBtns();
+
+  $('#add-animal').on('click', function(event) {
+    event.preventDefault();
+    let newAnimal = $('#animal-input').val();
+    topics.push(newAnimal);
+    $('#animal-buttons').empty();
+    createAnimalBtns();
+  });
 
   // On click function that gets data attribute 'data-animal' adds it to the queryURL
   $('#animal-buttons').on('click', '.animal-button', function() {
