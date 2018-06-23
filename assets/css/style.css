@@ -5,3 +5,13 @@ body {
 .animal-image {
     max-width: 400px;
 }
+
+.navbar-brand {
+    font-size: 3vw;
+    font-family: 'Finger Paint', cursive;
+
+}
+
+.card-title {
+    font-family: 'Finger Paint', cursive;
+}

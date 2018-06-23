@@ -25,25 +25,24 @@
 
 // Add a form to your page takes the value from a user input box and adds it into your topics array. Then make a function call that takes each topic in the array remakes the buttons on the page.
 
-
 $(document).ready(function () {
 
-  //Array of animals for
+  //Array of preloaded values for search topic buttons
   let topics = ['cats', 'dogs', 'birds', 'elephant', 'seal', 'fish', 'lion', 'bison', 'deer', 'tiger'];
   
   //For loop to add buttons to the page using the values from topics array
-  
   function createAnimalBtns() {
     for (let i = 0; i < topics.length; i++) {
       let animalBtn = $('<button>');
-      animalBtn.addClass('btn btn-success m-2 animal-button');
+      animalBtn.addClass('btn btn-info m-2 animal-button');
       animalBtn.attr({'data-animal': topics[i], 'type': 'button'})
       animalBtn.text(topics[i]);
       $('#animal-buttons').append(animalBtn);
     }};
 
-  createAnimalBtns();
+  createAnimalBtns(); //Run the add button function 'createAnimalBtns'
 
+  //On click function to capture the value entered in text field and run the createAnimalBtns function
   $('#add-animal').on('click', function(event) {
     event.preventDefault();
     let newAnimal = $('#animal-input').val();
@@ -58,6 +57,7 @@ $(document).ready(function () {
     let btnChoice = ($(this).attr('data-animal'));
     let queryURL = "https://api.giphy.com/v1/gifs/search?api_key=QJFjBGH5qeVc3rF8o3OfyPgHBTUGkJ0O&q=" + btnChoice + "&limit=10";
 
+  // Ajax call to retrieve GIF data from GIPHY and store it in 'response'
   $.ajax({
     url: queryURL,
     method: "GET"
@@ -66,69 +66,34 @@ $(document).ready(function () {
     console.log(response);
     console.log(btnChoice);
     
+    // for loop to display the images and information on the page returned from GIPHY
     for (let j = 0; j < (response.data).length; j++) {
       $('#animal-images').append(`    
         <div class="card m-2" style="width: 18rem;">
           <img class="card-img-top" src="${response.data[j].images.fixed_height_still.url}" alt="${response.data[j].title}" data-alt="${response.data[j].images.fixed_height.url}">
           <div class="card-body">
             <h5 class="card-title">${response.data[j].title}</h5>
-            <p class="card-text">Rating: ${response.data[j].rating}</p>
-            <p class="card-text">Score: ${response.data[j]._score}</p>
+            <p class="card-text">Rating: ${response.data[j].rating}
+            <br>Score: ${response.data[j]._score}</p>
           </div>
         </div>`);
     };
   });
   });
 
-    // On click function that replaces static image with animated image
-    // **************************************************************************************************
-  // Get the .gif images from the "data-alt".
-	let getGif = function() {
-		let gif = [];
-		$('img').each(function() {
-			let data = $(this).data('alt');
-			gif.push(data);
-		});
-		return gif;
-	}
-
-	let gif = getGif();
-
-	// Preload all the gif images.
-	let image = [];
-
-	$.each(gif, function(index) {
-		image[index]     = new Image();
-		image[index].src = gif[index];
-	});
-
-	// Change the image to .gif when clicked and vice versa.
+  // On click function to swap the image url between the attribute "data-alt" and "src".
 	$('#animal-images').on('click', '.card', function() {
-
-		let $this   = $(this),
-				$index  = $this.index(),
-				
-				$img    = $this.children('img'),
-				$imgSrc = $img.attr('src'),
-				$imgAlt = $img.attr('data-alt'),
-				$imgExt = $imgAlt.split('/');
-        console.log($imgExt);
+				$index  = $(this).index(),				
+				img    = $(this).children('img'),
+				imgSrc = img.attr('src'),
+				imgAlt = img.attr('data-alt'),
+				imgExt = imgAlt.split('/');
         
-		if ($imgExt[5] === '200.gif') {
-			$img.attr('src', $img.data('alt')).attr('data-alt', $imgSrc);
+		if (imgExt[5] === '200.gif') {
+			img.attr('src', img.data('alt')).attr('data-alt', imgSrc);
 		} else {
-			$img.attr('src', $imgAlt).attr('data-alt', $img.data('alt'));
-		}
-
-		// Add play class to help with the styling.
-		$this.toggleClass('play');
+			img.attr('src', imgAlt).attr('data-alt', img.data('alt'));
+    }
 
 	});
-
-// **************************************************************************************************
-
-
-
-
-
 });
