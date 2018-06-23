@@ -12,7 +12,9 @@ To add a button for GIF search, enter a topic in the text field then click the *
 
 ## Screenshots
 
+![Image of Homepage](assets/images/Giphy-API-Search-HOME.png)
 
+![Image of Results](assets/images/Giphy-API-Search-RESULTS.png)
 
 
 ## Built With
