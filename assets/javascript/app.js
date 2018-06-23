@@ -34,14 +34,13 @@ $(document).ready(function () {
   //For loop to add buttons to the page using the values from topics array
   
   function createAnimalBtns() {
-  for (let i = 0; i < topics.length; i++) {
-    let animalBtn = $('<button>');
-    animalBtn.addClass('btn btn-success m-2 animal-button');
-    animalBtn.attr('data-animal', topics[i]);
-    animalBtn.attr('type', 'button');
-    animalBtn.text(topics[i]);
-    $('#animal-buttons').append(animalBtn);
-  }}
+    for (let i = 0; i < topics.length; i++) {
+      let animalBtn = $('<button>');
+      animalBtn.addClass('btn btn-success m-2 animal-button');
+      animalBtn.attr({'data-animal': topics[i], 'type': 'button'})
+      animalBtn.text(topics[i]);
+      $('#animal-buttons').append(animalBtn);
+    }};
 
   createAnimalBtns();
 
@@ -70,7 +69,7 @@ $(document).ready(function () {
     for (let j = 0; j < (response.data).length; j++) {
       $('#animal-images').append(`    
         <div class="card m-2" style="width: 18rem;">
-          <img class="card-img-top" src="${response.data[j].images.fixed_height.url}" alt="${response.data[j].title}">
+          <img class="card-img-top" src="${response.data[j].images.fixed_height_still.url}" alt="${response.data[j].title}" data-alt="${response.data[j].images.fixed_height.url}">
           <div class="card-body">
             <h5 class="card-title">${response.data[j].title}</h5>
             <p class="card-text">Rating: ${response.data[j].rating}</p>
@@ -80,4 +79,56 @@ $(document).ready(function () {
     };
   });
   });
+
+    // On click function that replaces static image with animated image
+    // **************************************************************************************************
+  // Get the .gif images from the "data-alt".
+	let getGif = function() {
+		let gif = [];
+		$('img').each(function() {
+			let data = $(this).data('alt');
+			gif.push(data);
+		});
+		return gif;
+	}
+
+	let gif = getGif();
+
+	// Preload all the gif images.
+	let image = [];
+
+	$.each(gif, function(index) {
+		image[index]     = new Image();
+		image[index].src = gif[index];
+	});
+
+	// Change the image to .gif when clicked and vice versa.
+	$('#animal-images').on('click', '.card', function() {
+
+		let $this   = $(this),
+				$index  = $this.index(),
+				
+				$img    = $this.children('img'),
+				$imgSrc = $img.attr('src'),
+				$imgAlt = $img.attr('data-alt'),
+				$imgExt = $imgAlt.split('/');
+        console.log($imgExt);
+        
+		if ($imgExt[5] === '200.gif') {
+			$img.attr('src', $img.data('alt')).attr('data-alt', $imgSrc);
+		} else {
+			$img.attr('src', $imgAlt).attr('data-alt', $img.data('alt'));
+		}
+
+		// Add play class to help with the styling.
+		$this.toggleClass('play');
+
+	});
+
+// **************************************************************************************************
+
+
+
+
+
 });
