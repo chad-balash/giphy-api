@@ -1,6 +1,6 @@
 # GIF Search using Giphy API
 
-[Link to GIF Search](https://chad-balash.github.io/trivia-game/)
+[Link to GIF Search](https://chad-balash.github.io/giphy-api/)
 
 This is an animated GIF search that returns 10 images based on the search criteria. I created this using html, css, javascript, jquery, ajax, bootstrap, and giphy api.
 
